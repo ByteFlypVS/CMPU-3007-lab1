@@ -76,12 +76,10 @@ function TodoListCard() {
     );
 }
 
-// Modify this
 function AddItemForm({ onNewItem }) {
     const { Form, InputGroup, Button } = ReactBootstrap;
 
     const [newItem, setNewItem] = React.useState('');
-    const [priority, setPriority] = React.useState('normal'); // Initial priority
     const [submitting, setSubmitting] = React.useState(false);
 
     const submitNewItem = e => {
@@ -89,7 +87,7 @@ function AddItemForm({ onNewItem }) {
         setSubmitting(true);
         fetch('/items', {
             method: 'POST',
-            body: JSON.stringify({ name: newItem, priority }),
+            body: JSON.stringify({ name: newItem }),
             headers: { 'Content-Type': 'application/json' },
         })
             .then(r => r.json())
@@ -110,10 +108,6 @@ function AddItemForm({ onNewItem }) {
                     placeholder="New Item"
                     aria-describedby="basic-addon1"
                 />
-                <Form.Control as="select" value={priority} onChange={e => setPriority(e.target.value)}>
-                    <option value="normal">Normal</option>
-                    <option value="urgent">Urgent</option>
-                </Form.Control>
                 <InputGroup.Append>
                     <Button
                         type="submit"
@@ -129,7 +123,6 @@ function AddItemForm({ onNewItem }) {
     );
 }
 
-// Modify this if above is modified
 function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
     const { Container, Row, Col, Button } = ReactBootstrap;
 
@@ -138,8 +131,7 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
             method: 'PUT',
             body: JSON.stringify({
                 name: item.name,
-                priority: item.priority,
-                completed: !item.completed
+                completed: !item.completed,
             }),
             headers: { 'Content-Type': 'application/json' },
         })
@@ -176,7 +168,7 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                     </Button>
                 </Col>
                 <Col xs={10} className="name">
-                    {item.name} ({item.priority})
+                    {item.name}
                 </Col>
                 <Col xs={1} className="text-center remove">
                     <Button
