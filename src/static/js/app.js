@@ -178,7 +178,7 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                 <Col xs={10} className="name">
                     {item.name}
                     {item.dueDate && (
-                        <span className="due-date">Due: {item.dueDate}</span>
+                        <div className="due-date">Due: {item.dueDate}</div>
                     )}
                 </Col>
                 <Col xs={1} className="text-center remove">
