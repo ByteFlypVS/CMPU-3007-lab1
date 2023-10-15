@@ -134,14 +134,11 @@ function AddItemForm({ onNewItem }) {
 function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
     const { Container, Row, Col, Button } = ReactBootstrap;
 
-    // Check if the dueDate is a valid date string before attempting to parse it
-    const isValidDate = (date) => !isNaN(Date.parse(date));
-    
-    // Parse the dueDate string into a JavaScript Date object if it's a valid date
-    const dueDate = isValidDate(item.dueDate) ? new Date(item.dueDate) : null;
+    // Parse the dueDate string into a JavaScript Date object
+    const dueDate = new Date(item.dueDate);
 
-    // Format the date as a user-friendly string if it's a valid date
-    const formattedDueDate = dueDate ? dueDate.toLocaleDateString() : "Invalid Date";
+    // Format the date as a user-friendly string (e.g., "MM/DD/YYYY")
+    const formattedDueDate = dueDate.toLocaleDateString();
 
     const toggleCompletion = () => {
         fetch(`/items/${item.id}`, {
@@ -186,7 +183,7 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                     </Button>
                 </Col>
                 <Col xs={10} className="name">
-                    {item.name} (Due: {formattedDueDate}) {/* Use formattedDueDate */}
+                    {item.name} (Due: {formattedDueDate})
                 </Col>
                 <Col xs={1} className="text-center remove">
                     <Button
