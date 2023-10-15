@@ -140,9 +140,6 @@ function AddItemForm({ onNewItem }) {
 function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
     const { Container, Row, Col, Button } = ReactBootstrap;
     
-    const dueDate = new Date(item.dueDate);
-    const formattedDueDate = dueDate.toLocaleDateString();
-
     const toggleCompletion = () => {
         fetch(`/items/${item.id}`, {
             method: 'PUT',
@@ -186,7 +183,7 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                     </Button>
                 </Col>
                 <Col xs={10} className="name">
-                    {item.name} (Due: {formattedDueDate})
+                    {item.name} (Due: {item.dueDate})
                 </Col>
                 <Col xs={1} className="text-center remove">
                     <Button
