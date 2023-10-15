@@ -4,9 +4,15 @@ function App() {
         <Container>
             <Row>
                 <Col md={{ offset: 3, span: 6 }}>
-                    <h1>Todo List</h1>
-                    <p>Welcome to the Todo List application. You can add, complete, and remove items from your to-do list.</p>
-
+                    <h1>ToDo Listings</h1>
+                    <p>
+                        Welcome to ToDo Listings. Here's what you can do with it:
+                        <ul>
+                            <li>Add items into a list</li>
+                            <li>Set a due date to complete them</li>
+                            <li>Mark items being completed or remove them</li>
+                        </ul>
+                    </p>
                     <TodoListCard />
                 </Col>
             </Row>
@@ -133,11 +139,8 @@ function AddItemForm({ onNewItem }) {
 // Modified ItemDisplay
 function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
     const { Container, Row, Col, Button } = ReactBootstrap;
-
-    // Parse the dueDate string into a JavaScript Date object
+    
     const dueDate = new Date(item.dueDate);
-
-    // Format the date as a user-friendly string (e.g., "MM/DD/YYYY")
     const formattedDueDate = dueDate.toLocaleDateString();
 
     const toggleCompletion = () => {
