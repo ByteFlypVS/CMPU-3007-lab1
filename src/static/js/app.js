@@ -76,13 +76,11 @@ function TodoListCard() {
     );
 }
 
+// Modified AddItemForm
 function AddItemForm({ onNewItem }) {
     const { Form, InputGroup, Button } = ReactBootstrap;
-
-    const [newItem, setNewItem] = React.useState({
-        name: '',
-        dueDate: '', // Initialize dueDate as an empty string
-    });
+    const [newItem, setNewItem] = React.useState('');
+    const [dueDate, setDueDate] = React.useState(''); // New state for due date
     const [submitting, setSubmitting] = React.useState(false);
 
     const submitNewItem = e => {
@@ -90,17 +88,15 @@ function AddItemForm({ onNewItem }) {
         setSubmitting(true);
         fetch('/items', {
             method: 'POST',
-            body: JSON.stringify(newItem), // Send the entire newItem object
+            body: JSON.stringify({ name: newItem, dueDate: dueDate }), // Include dueDate in the request
             headers: { 'Content-Type': 'application/json' },
         })
             .then(r => r.json())
             .then(item => {
                 onNewItem(item);
                 setSubmitting(false);
-                setNewItem({
-                    name: '', // Clear the name input
-                    dueDate: '', // Clear the due date input
-                });
+                setNewItem('');
+                setDueDate(''); // Clear due date input
             });
     };
 
@@ -108,24 +104,22 @@ function AddItemForm({ onNewItem }) {
         <Form onSubmit={submitNewItem}>
             <InputGroup className="mb-3">
                 <Form.Control
-                    value={newItem.name}
-                    onChange={e => setNewItem({ ...newItem, name: e.target.value })}
+                    value={newItem}
+                    onChange={e => setNewItem(e.target.value)}
                     type="text"
                     placeholder="New Item"
                     aria-describedby="basic-addon1"
                 />
-                <Form.Control
-                    value={newItem.dueDate}
-                    onChange={e => setNewItem({ ...newItem, dueDate: e.target.value })}
-                    type="date" // Input type for due date
-                    placeholder="Due Date"
-                    aria-describedby="basic-addon2"
+                <Form.Control // Input for due date
+                    value={dueDate}
+                    onChange={e => setDueDate(e.target.value)}
+                    type="date"
                 />
                 <InputGroup.Append>
                     <Button
                         type="submit"
                         variant="success"
-                        disabled={!newItem.name.length || !newItem.dueDate.length}
+                        disabled={!newItem.length || !dueDate.length} // Disable if due date is empty
                         className={submitting ? 'disabled' : ''}
                     >
                         {submitting ? 'Adding...' : 'Add Item'}
@@ -135,18 +129,18 @@ function AddItemForm({ onNewItem }) {
         </Form>
     );
 }
+// END
 
 // Modified ItemDisplay
 function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
     const { Container, Row, Col, Button } = ReactBootstrap;
-    
+
     const toggleCompletion = () => {
         fetch(`/items/${item.id}`, {
             method: 'PUT',
             body: JSON.stringify({
                 name: item.name,
                 completed: !item.completed,
-                dueDate: item.dueDate, // Include dueDate when updating
             }),
             headers: { 'Content-Type': 'application/json' },
         })
@@ -182,8 +176,11 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                         />
                     </Button>
                 </Col>
-                <Col xs={10} className="name">
-                    {item.name} (Due: {item.dueDate})
+                <Col xs={5} className="name">
+                    {item.name}
+                </Col>
+                <Col xs={3} className="text-center">
+                    {item.dueDate && <span>Due: {item.dueDate}</span>} {/* Display due date */}
                 </Col>
                 <Col xs={1} className="text-center remove">
                     <Button
