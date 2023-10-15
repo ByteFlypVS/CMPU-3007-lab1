@@ -76,11 +76,11 @@ function TodoListCard() {
     );
 }
 
-// Modified AddItemForm
+// Modify this
 function AddItemForm({ onNewItem }) {
     const { Form, InputGroup, Button } = ReactBootstrap;
+
     const [newItem, setNewItem] = React.useState('');
-    const [dueDate, setDueDate] = React.useState(''); // New state for due date
     const [submitting, setSubmitting] = React.useState(false);
 
     const submitNewItem = e => {
@@ -88,7 +88,7 @@ function AddItemForm({ onNewItem }) {
         setSubmitting(true);
         fetch('/items', {
             method: 'POST',
-            body: JSON.stringify({ name: newItem, dueDate: dueDate }), // Include dueDate in the request
+            body: JSON.stringify({ name: newItem }),
             headers: { 'Content-Type': 'application/json' },
         })
             .then(r => r.json())
@@ -96,7 +96,6 @@ function AddItemForm({ onNewItem }) {
                 onNewItem(item);
                 setSubmitting(false);
                 setNewItem('');
-                setDueDate(''); // Clear due date input
             });
     };
 
@@ -110,16 +109,11 @@ function AddItemForm({ onNewItem }) {
                     placeholder="New Item"
                     aria-describedby="basic-addon1"
                 />
-                <Form.Control // Input for due date
-                    value={dueDate}
-                    onChange={e => setDueDate(e.target.value)}
-                    type="date"
-                />
                 <InputGroup.Append>
                     <Button
                         type="submit"
                         variant="success"
-                        disabled={!newItem.length || !dueDate.length} // Disable if due date is empty
+                        disabled={!newItem.length}
                         className={submitting ? 'disabled' : ''}
                     >
                         {submitting ? 'Adding...' : 'Add Item'}
@@ -129,9 +123,8 @@ function AddItemForm({ onNewItem }) {
         </Form>
     );
 }
-// END
 
-// Modified ItemDisplay
+// Modify this if above is modified
 function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
     const { Container, Row, Col, Button } = ReactBootstrap;
 
@@ -140,7 +133,6 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
             method: 'PUT',
             body: JSON.stringify({
                 name: item.name,
-                dueDate: item.dueDate,
                 completed: !item.completed,
             }),
             headers: { 'Content-Type': 'application/json' },
@@ -177,11 +169,8 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                         />
                     </Button>
                 </Col>
-                <Col xs={5} className="name">
+                <Col xs={10} className="name">
                     {item.name}
-                </Col>
-                <Col xs={3} className="name">
-                    Due: {item.dueDate}
                 </Col>
                 <Col xs={1} className="text-center remove">
                     <Button
@@ -197,6 +186,5 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
         </Container>
     );
 }
-// END
 
 ReactDOM.render(<App />, document.getElementById('root'));
