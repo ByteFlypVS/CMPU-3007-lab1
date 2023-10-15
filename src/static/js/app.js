@@ -140,7 +140,7 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
             method: 'PUT',
             body: JSON.stringify({
                 name: item.name,
-                dueDate. item.dueDate,
+                dueDate: item.dueDate,
                 completed: !item.completed,
             }),
             headers: { 'Content-Type': 'application/json' },
