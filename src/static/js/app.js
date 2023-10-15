@@ -178,8 +178,8 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                 <Col xs={10} className="name">
                     {item.name}
                 </Col>
-                <Col xs={2} className="due-date">
-                    Due: {item.dueDate}
+                <Col xs={10} className="due-date">
+                    Due: {new Date(item.dueDate).toLocaleDateString()}
                 </Col>
                 <Col xs={1} className="text-center remove">
                     <Button
