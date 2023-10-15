@@ -176,4 +176,119 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
     );
 }
 
+// New component: multiple lists
+
+function TodoLists() {
+  const [lists, setLists] = React.useState([]);
+  const [activeList, setActiveList] = React.useState(null);
+
+  // Function to create a new to-do list
+  const createList = () => {
+    const newList = {
+      id: Date.now(), // Generate a unique ID
+      name: 'New List',
+      items: [],
+    };
+
+    setLists([...lists, newList]);
+  };
+
+  // Function to switch to a different to-do list
+  const switchToList = (listId) => {
+    setActiveList(listId);
+  };
+
+  // Function to add a new item to the active list
+  const addItemToActiveList = (newItem) => {
+    if (activeList !== null) {
+      const updatedLists = lists.map((list) => {
+        if (list.id === activeList) {
+          return {
+            ...list,
+            items: [...list.items, newItem],
+          };
+        }
+        return list;
+      });
+
+      setLists(updatedLists);
+    }
+  };
+
+  // Function to update an item in the active list
+  const updateItemInActiveList = (updatedItem) => {
+    if (activeList !== null) {
+      const updatedLists = lists.map((list) => {
+        if (list.id === activeList) {
+          const updatedItems = list.items.map((item) => {
+            if (item.id === updatedItem.id) {
+              return updatedItem;
+            }
+            return item;
+          });
+          return {
+            ...list,
+            items: updatedItems,
+          };
+        }
+        return list;
+      });
+
+      setLists(updatedLists);
+    }
+  };
+
+  // Function to remove an item from the active list
+  const removeItemFromActiveList = (itemId) => {
+    if (activeList !== null) {
+      const updatedLists = lists.map((list) => {
+        if (list.id === activeList) {
+          const filteredItems = list.items.filter((item) => item.id !== itemId);
+          return {
+            ...list,
+            items: filteredItems,
+          };
+        }
+        return list;
+      });
+
+      setLists(updatedLists);
+    }
+  };
+
+  return (
+    <div>
+      <h2>Multiple To-Do Lists</h2>
+
+      <div>
+        <button onClick={createList}>Create New List</button>
+      </div>
+
+      <div>
+        {lists.map((list) => (
+          <div key={list.id}>
+            <button onClick={() => switchToList(list.id)}>
+              {list.name}
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {activeList !== null && (
+        <div>
+          <TodoListCard
+            key={activeList}
+            items={lists.find((list) => list.id === activeList).items}
+            onNewItem={addItemToActiveList}
+            onItemUpdate={updateItemInActiveList}
+            onItemRemoval={removeItemFromActiveList}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// End of component
+
 ReactDOM.render(<App />, document.getElementById('root'));
