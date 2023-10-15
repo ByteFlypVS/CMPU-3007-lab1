@@ -49,41 +49,24 @@ function TodoListCard() {
 
     if (items === null) return 'Loading...';
 
-// New code here for filter
-
-    const [filter, setFilter] = React.useState('all');
-
-  // Filter the items based on the selected filter
-  const filteredItems = items.filter((item) => {
-    if (filter === 'completed') {
-      return item.completed;
-    } else if (filter === 'incomplete') {
-      return !item.completed;
-    }
-    return true; // 'all' filter, show all items
-  });
-
-  return (
-    <React.Fragment>
-      <AddItemForm onNewItem={onNewItem} />
-      <TodoListFilter filter={filter} setFilter={setFilter} />
-      {filteredItems.length === 0 && (
-        <p className="text-center">No matching to-do items found.</p>
-      )}
-      {filteredItems.map((item) => (
-        <ItemDisplay
-          item={item}
-          key={item.id}
-          onItemUpdate={onItemUpdate}
-          onItemRemoval={onItemRemoval}
-        />
-      ))}
-    </React.Fragment>
-  );
+    return (
+        <React.Fragment>
+            <AddItemForm onNewItem={onNewItem} />
+            {items.length === 0 && (
+		<p className="text-center">You have no to-do items yet! Add one above!</p>
+            )}
+            {items.map(item => (
+                <ItemDisplay
+                    item={item}
+                    key={item.id}
+                    onItemUpdate={onItemUpdate}
+                    onItemRemoval={onItemRemoval}
+                />
+            ))}
+        </React.Fragment>
+    );
 }
-
-// END
-
+    
 function AddItemForm({ onNewItem }) {
     const { Form, InputGroup, Button } = ReactBootstrap;
 
@@ -192,30 +175,5 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
         </Container>
     );
 }
-
-
-
-// New component
-
-function TodoListFilter({ filter, setFilter }) {
-  const handleFilterChange = (e) => {
-    setFilter(e.target.value);
-  };
-
-  return (
-    <div className="todo-list-filter">
-      <label>Filter by: </label>
-      <select value={filter} onChange={handleFilterChange}>
-        <option value="all">All</option>
-        <option value="completed">Completed</option>
-        <option value="incomplete">Incomplete</option>
-      </select>
-    </div>
-  );
-}
-
-// END
-
-
 
 ReactDOM.render(<App />, document.getElementById('root'));
