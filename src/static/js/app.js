@@ -138,8 +138,8 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
             method: 'PUT',
             body: JSON.stringify({
                 name: item.name,
-                completed: !item.completed,
-                priority: item.priority, // Preserve the priority
+                priority: item.priority,
+                completed: !item.completed
             }),
             headers: { 'Content-Type': 'application/json' },
         })
@@ -175,9 +175,8 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                         />
                     </Button>
                 </Col>
-                <Col xs={9} className="name">
-                    <span>{item.name}</span>
-                    <span className="priority">Priority: {item.priority}</span>
+                <Col xs={10} className="name">
+                    {item.name} ({item.priority})
                 </Col>
                 <Col xs={1} className="text-center remove">
                     <Button
