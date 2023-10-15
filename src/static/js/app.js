@@ -4,7 +4,7 @@ function App() {
         <Container>
             <Row>
                 <Col md={{ offset: 3, span: 6 }}>
-		    <h1>Todo List</h1>
+                    <h1>Todo List</h1>
                     <p>Welcome to the Todo List application. You can add, complete, and remove items from your to-do list.</p>
 
                     <TodoListCard />
@@ -56,7 +56,7 @@ function TodoListCard() {
         <React.Fragment>
             <AddItemForm onNewItem={onNewItem} />
             {items.length === 0 && (
-		<p className="text-center">You have no to-do items yet! Add one above!</p>
+                <p className="text-center">You have no to-do items yet! Add one above!</p>
             )}
             {items.map(item => (
                 <ItemDisplay
@@ -69,11 +69,14 @@ function TodoListCard() {
         </React.Fragment>
     );
 }
-    
+
 function AddItemForm({ onNewItem }) {
     const { Form, InputGroup, Button } = ReactBootstrap;
 
-    const [newItem, setNewItem] = React.useState('');
+    const [newItem, setNewItem] = React.useState({
+        name: '',
+        dueDate: '', // Initialize dueDate as an empty string
+    });
     const [submitting, setSubmitting] = React.useState(false);
 
     const submitNewItem = e => {
@@ -81,14 +84,17 @@ function AddItemForm({ onNewItem }) {
         setSubmitting(true);
         fetch('/items', {
             method: 'POST',
-            body: JSON.stringify({ name: newItem }),
+            body: JSON.stringify(newItem), // Send the entire newItem object
             headers: { 'Content-Type': 'application/json' },
         })
             .then(r => r.json())
             .then(item => {
                 onNewItem(item);
                 setSubmitting(false);
-                setNewItem('');
+                setNewItem({
+                    name: '', // Clear the name input
+                    dueDate: '', // Clear the due date input
+                });
             });
     };
 
@@ -96,17 +102,24 @@ function AddItemForm({ onNewItem }) {
         <Form onSubmit={submitNewItem}>
             <InputGroup className="mb-3">
                 <Form.Control
-                    value={newItem}
-                    onChange={e => setNewItem(e.target.value)}
+                    value={newItem.name}
+                    onChange={e => setNewItem({ ...newItem, name: e.target.value })}
                     type="text"
                     placeholder="New Item"
                     aria-describedby="basic-addon1"
+                />
+                <Form.Control
+                    value={newItem.dueDate}
+                    onChange={e => setNewItem({ ...newItem, dueDate: e.target.value })}
+                    type="date" // Input type for due date
+                    placeholder="Due Date"
+                    aria-describedby="basic-addon2"
                 />
                 <InputGroup.Append>
                     <Button
                         type="submit"
                         variant="success"
-                        disabled={!newItem.length}
+                        disabled={!newItem.name.length || !newItem.dueDate.length}
                         className={submitting ? 'disabled' : ''}
                     >
                         {submitting ? 'Adding...' : 'Add Item'}
@@ -126,6 +139,7 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
             body: JSON.stringify({
                 name: item.name,
                 completed: !item.completed,
+                dueDate: item.dueDate, // Include dueDate when updating
             }),
             headers: { 'Content-Type': 'application/json' },
         })
@@ -163,6 +177,9 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                 </Col>
                 <Col xs={10} className="name">
                     {item.name}
+                    {item.dueDate && (
+                        <span className="due-date">Due: {item.dueDate}</span>
+                    )}
                 </Col>
                 <Col xs={1} className="text-center remove">
                     <Button
