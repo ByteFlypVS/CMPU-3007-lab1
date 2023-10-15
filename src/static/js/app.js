@@ -4,6 +4,9 @@ function App() {
         <Container>
             <Row>
                 <Col md={{ offset: 3, span: 6 }}>
+		    <h1>Todo List</h1>
+                    <p>Welcome to the Todo List application. You can add, complete, and remove items from your to-do list.</p>
+                    <FilterItems filter={filter} setFilter={setFilter} />
                     <TodoListCard />
                 </Col>
             </Row>
@@ -175,5 +178,45 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
         </Container>
     );
 }
+
+// New component
+
+function FilterItems({ items, filter, setFilter }) {
+    const { Form, ButtonGroup, Button } = ReactBootstrap;
+
+    const handleFilterChange = (newFilter) => {
+        setFilter(newFilter);
+    };
+
+    return (
+        <Form>
+            <Form.Group controlId="filterOptions">
+                <Form.Label>Filter by:</Form.Label>
+                <ButtonGroup>
+                    <Button
+                        variant={filter === 'all' ? 'primary' : 'secondary'}
+                        onClick={() => handleFilterChange('all')}
+                    >
+                        All
+                    </Button>
+                    <Button
+                        variant={filter === 'completed' ? 'primary' : 'secondary'}
+                        onClick={() => handleFilterChange('completed')}
+                    >
+                        Completed
+                    </Button>
+                    <Button
+                        variant={filter === 'incomplete' ? 'primary' : 'secondary'}
+                        onClick={() => handleFilterChange('incomplete')}
+                    >
+                        Incomplete
+                    </Button>
+                </ButtonGroup>
+            </Form.Group>
+        </Form>
+    );
+}
+
+// END
 
 ReactDOM.render(<App />, document.getElementById('root'));
