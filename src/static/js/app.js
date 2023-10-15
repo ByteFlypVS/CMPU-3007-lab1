@@ -140,6 +140,7 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
             method: 'PUT',
             body: JSON.stringify({
                 name: item.name,
+                dueDate. item.dueDate,
                 completed: !item.completed,
             }),
             headers: { 'Content-Type': 'application/json' },
@@ -180,7 +181,7 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                     {item.name}
                 </Col>
                 <Col xs={3} className="name">
-                    (Due: {item.dueDate})
+                    Due: {item.dueDate}
                 </Col>
                 <Col xs={1} className="text-center remove">
                     <Button
