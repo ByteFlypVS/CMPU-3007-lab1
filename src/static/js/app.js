@@ -80,6 +80,7 @@ function TodoListCard() {
 function AddItemForm({ onNewItem }) {
     const { Form, InputGroup, Button } = ReactBootstrap;
 
+    // Change here
     const [newItem, setNewItem] = React.useState('');
     const [newPriority, setPriority] = React.useState('low'); // Initial priority
     const [submitting, setSubmitting] = React.useState(false);
@@ -100,6 +101,7 @@ function AddItemForm({ onNewItem }) {
                 onNewItem(item);
                 setSubmitting(false);
                 setNewItem('');
+                setPriority('');
             });
     };
 
