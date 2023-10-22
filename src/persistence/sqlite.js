@@ -70,7 +70,7 @@ async function getItem(id) {
 async function storeItem(item) {
     return new Promise((acc, rej) => {
         db.run(
-            'INSERT INTO todo_items (id, name, priority, completed) VALUES (?, ?, ?)', // Change this
+            'INSERT INTO todo_items (id, name, priority, completed) VALUES (?, ?, ?, ?)', // Change this
             [item.id, item.name, item.priority, item.completed ? 1 : 0], // Change this
             err => {
                 if (err) return rej(err);
