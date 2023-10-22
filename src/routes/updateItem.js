@@ -4,6 +4,7 @@ module.exports = async (req, res) => {
     await db.updateItem(req.params.id, {
         name: req.body.name,
         // Change here
+        priority: req.body.priority,
         completed: req.body.completed,
     });
     const item = await db.getItem(req.params.id);
