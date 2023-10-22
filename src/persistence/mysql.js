@@ -39,7 +39,7 @@ async function init() {
 
     return new Promise((acc, rej) => {
         pool.query(
-            'CREATE TABLE IF NOT EXISTS todo_items (id varchar(36), name varchar(255), completed boolean) DEFAULT CHARSET utf8mb4', // Change this
+            'CREATE TABLE IF NOT EXISTS todo_items (id varchar(36), name varchar(255), priority varchar(36), completed boolean) DEFAULT CHARSET utf8mb4', // Change this
             err => {
                 if (err) return rej(err);
 
@@ -92,8 +92,8 @@ async function getItem(id) {
 async function storeItem(item) {
     return new Promise((acc, rej) => {
         pool.query(
-            'INSERT INTO todo_items (id, name, completed) VALUES (?, ?, ?)', // Change this
-            [item.id, item.name, item.completed ? 1 : 0], // Change this
+            'INSERT INTO todo_items (id, name, priority, completed) VALUES (?, ?, ?)', // Change this
+            [item.id, item.name, item.priority, item.completed ? 1 : 0], // Change this
             err => {
                 if (err) return rej(err);
                 acc();
@@ -105,8 +105,8 @@ async function storeItem(item) {
 async function updateItem(id, item) {
     return new Promise((acc, rej) => {
         pool.query(
-            'UPDATE todo_items SET name=?, completed=? WHERE id=?', // Change this
-            [item.name, item.completed ? 1 : 0, id], // Change this
+            'UPDATE todo_items SET name=?, priority=?, completed=? WHERE id=?', // Change this
+            [item.name, item.priority, item.completed ? 1 : 0, id], // Change this
             err => {
                 if (err) return rej(err);
                 acc();
