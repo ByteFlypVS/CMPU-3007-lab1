@@ -81,7 +81,7 @@ function AddItemForm({ onNewItem }) {
     const { Form, InputGroup, Button } = ReactBootstrap;
 
     const [newItem, setNewItem] = React.useState('');
-    const [priority, setPriority] = React.useState('normal'); // Initial priority
+    const [priority, setPriority] = React.useState('low'); // Initial priority
     const [submitting, setSubmitting] = React.useState(false);
 
     const submitNewItem = e => {
@@ -111,8 +111,9 @@ function AddItemForm({ onNewItem }) {
                     aria-describedby="basic-addon1"
                 />
                 <Form.Control as="select" value={priority} onChange={e => setPriority(e.target.value)}>
-                    <option value="normal">Normal</option>
-                    <option value="urgent">Urgent</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
                 </Form.Control>
                 <InputGroup.Append>
                     <Button
@@ -176,8 +177,7 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                     </Button>
                 </Col>
                 <Col xs={9} className="name">
-                    <span>{item.name}</span>
-                    <span className="priority">Priority: {item.priority}</span>
+                    {item.name} | Priority: {item.priority}
                 </Col>
                 <Col xs={1} className="text-center remove">
                     <Button
