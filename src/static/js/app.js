@@ -81,7 +81,7 @@ function AddItemForm({ onNewItem }) {
     const { Form, InputGroup, Button } = ReactBootstrap;
 
     const [newItem, setNewItem] = React.useState('');
-    const [priority, setPriority] = React.useState('low'); // Initial priority
+    const [newPriority, setPriority] = React.useState('low'); // Initial priority
     const [submitting, setSubmitting] = React.useState(false);
 
     const submitNewItem = e => {
@@ -89,7 +89,10 @@ function AddItemForm({ onNewItem }) {
         setSubmitting(true);
         fetch('/items', {
             method: 'POST',
-            body: JSON.stringify({ name: newItem, priority }),
+            body: JSON.stringify({
+                name: newItem,
+                priority: newPriority
+            }),
             headers: { 'Content-Type': 'application/json' },
         })
             .then(r => r.json())
