@@ -4,12 +4,12 @@ function App() {
         <Container>
             <Row>
                 <Col md={{ offset: 3, span: 6 }}>
-                    <h1>ToDo Listings</h1>
+                    <h1>Duplicated ToDo Listings</h1>
                     <p>
-                        Welcome to ToDo Listings. Here's what you can do with it:
+                        Welcome to another copy of ToDo Listings. Here's what you can do with it:
                         <ul>
                             <li>Add items into a list</li>
-                            <li>Set a due date to complete them</li>
+                            <li>Set an urgency/priority to the task</li>
                             <li>Mark items being completed or remove them</li>
                         </ul>
                     </p>
@@ -62,7 +62,7 @@ function TodoListCard() {
         <React.Fragment>
             <AddItemForm onNewItem={onNewItem} />
             {items.length === 0 && (
-                <p className="text-center">You have no to-do items yet! Add one above!</p>
+                <p className="text-center">You have no to-do items yet; please add one above</p>
             )}
             {items.map(item => (
                 <ItemDisplay
