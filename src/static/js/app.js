@@ -9,7 +9,7 @@ function App() {
                         Welcome to ToDo Listings. Here's what you can do with it:
                         <ul>
                             <li>Add items into a list</li>
-                            <li>Set a due date to complete them</li>
+                            <li>Set an urgency/priority to the task</li>
                             <li>Mark items being completed or remove them</li>
                         </ul>
                     </p>
