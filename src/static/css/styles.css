@@ -39,9 +39,9 @@ button:focus {
 }
 
 #text {
-    width: 75%;
-    max-width: 75%;
-    margin: 0;
+    width: 50%;
+    max-width: 50%;
+    margin: 0 auto;
 }
 
 #text h1 {
