@@ -41,4 +41,13 @@ button:focus {
 #text {
     width: 75%;
     max-width: 75%;
+    margin: 0;
+}
+
+#text h1 {
+    text-align: center;
+}
+
+#text h4 {
+    text-align: center;
 }
